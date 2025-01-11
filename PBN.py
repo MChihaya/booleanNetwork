@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk, messagebox
 import os
-import numpy as np
 import json
 matplotlib.use('Agg')
 
@@ -345,10 +344,11 @@ class PBNGUI:
         ttk.Radiobutton(radio_frame, text="なし", variable=self.is_thereconst, value=0).pack(side=tk.LEFT)
         ttk.Radiobutton(radio_frame, text="あり", variable=self.is_thereconst, value=1).pack(side=tk.LEFT)
 
-        # 確率（スライダー）
+        # 確率（スライダーと直接入力）
         ttk.Label(input_frame, text="確率:").grid(row=3, column=0, sticky="w")
         slider_frame = ttk.Frame(input_frame)
         slider_frame.grid(row=3, column=1, sticky="ew")
+        
         self.prob = tk.DoubleVar(value=0.5)
         self.prob_slider = ttk.Scale(
             slider_frame,
@@ -356,11 +356,17 @@ class PBNGUI:
             to=1.0,
             orient="horizontal",
             variable=self.prob,
-            length=200
+            length=150
         )
         self.prob_slider.pack(side=tk.LEFT, fill="x", expand=True)
-        self.prob_label = ttk.Label(slider_frame, textvariable=self.prob)
-        self.prob_label.pack(side=tk.LEFT, padx=(5, 0))
+        
+        # 直接入力用のEntry
+        self.prob_entry = ttk.Entry(slider_frame, width=6, textvariable=self.prob)
+        self.prob_entry.pack(side=tk.LEFT, padx=(5, 0))
+        
+        # 値の検証と更新を行う関数をバインド
+        self.prob_entry.bind('<FocusOut>', self.validate_prob)
+        self.prob_entry.bind('<Return>', self.validate_prob)
 
         ttk.Label(input_frame, text="シミュレーション回数:").grid(row=4, column=0, sticky="w")
         self.sim_num = tk.IntVar(value=100)
@@ -391,20 +397,31 @@ class PBNGUI:
             self.root.destroy()
             
             # PBNの実行
-            for degree in range(2, 5):
-                for is_thereconst in range(0, 2):
-                    for i in range(sim_num):
 
-                        pbn = PBN(7, degree, is_thereconst, prob, i)      
-                        pbn.decide_func()
-                        pbn.print_bool_table()
-                        pbn.decide_topology()
-                        pbn.print_topology()
-                        pbn.run()
-                        pbn.save_graph_and_attractor()
+            for i in range(sim_num):
+
+                pbn = PBN(nodenum, degree, is_thereconst, prob, i)      
+                pbn.decide_func()
+                pbn.print_bool_table()
+                pbn.decide_topology()
+                pbn.print_topology()
+                pbn.run()
+                pbn.save_graph_and_attractor()
         else:
             # エラーダイアログを表示した後、GUIは開いたままにする
             messagebox.showerror("エラー", "入力値を確認してください")
+
+    def validate_prob(self, event=None):
+        try:
+            value = float(self.prob_entry.get())
+            if 0.0 <= value <= 1.0:
+                self.prob.set(value)
+            else:
+                self.prob.set(0.5)
+                messagebox.showwarning("警告", "確率は0から1の間で入力してください")
+        except ValueError:
+            self.prob.set(0.5)
+            messagebox.showwarning("警告", "有効な数値を入力してください")
 
 def main():
     random.seed(time.time())

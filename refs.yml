@@ -129,3 +129,9 @@ ai:
     publisher: コロナ社
     date: 2014
     
+point_attractor:
+    type: Article
+    title: Expected Number of Fixed Points in Boolean Networks with Arbitrary Topology
+    author: ["Fumito Mori", "Atsushi Mochizuki"]
+    publisher: Physical Review Letters
+    date: 2017
