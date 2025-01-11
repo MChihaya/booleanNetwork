@@ -1,0 +1,37 @@
+{
+    "total_attractors": 5,
+    "size_1_attractors": 4,
+    "attractors": [
+        {
+            "size": 1,
+            "nodes": [
+                "1011"
+            ]
+        },
+        {
+            "size": 1,
+            "nodes": [
+                "1101"
+            ]
+        },
+        {
+            "size": 1,
+            "nodes": [
+                "1010"
+            ]
+        },
+        {
+            "size": 2,
+            "nodes": [
+                "1110",
+                "1111"
+            ]
+        },
+        {
+            "size": 1,
+            "nodes": [
+                "1001"
+            ]
+        }
+    ]
+}
