@@ -72,7 +72,7 @@ def main():
                fontsize=14)
     plt.yticks(fontsize=14)
     
-    plt.legend(fontsize=14)
+    plt.legend(fontsize=14, loc = "lower left")
     plt.tight_layout()
     plt.show()
 

@@ -135,3 +135,11 @@ point_attractor:
     author: ["Fumito Mori", "Atsushi Mochizuki"]
     publisher: Physical Review Letters
     date: 2017
+
+shuki:
+    type: Web
+    title: 恐怖はどのような神経メカニズムを介して生物の視覚応答にバイアスを与えるのか？
+    author: ["辻 真人", "西塚 悠人", "榎本 和生"]
+    url:
+        value: https://www.s.u-tokyo.ac.jp/ja/info/8514/
+        date: 2025-01-12
